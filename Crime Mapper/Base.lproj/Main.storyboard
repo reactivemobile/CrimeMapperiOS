@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="11762" systemVersion="16D32" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES" initialViewController="BYZ-38-t0r">
+    <device id="retina5_5" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="11757"/>
+        <capability name="Constraints to layout margins" minToolsVersion="6.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Disclaimer View Controller-->
+        <scene sceneID="tne-QT-ifu">
+            <objects>
+                <viewController id="BYZ-38-t0r" customClass="DisclaimerViewController" customModule="Crime_Mapper" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="y3c-jy-aDJ"/>
+                        <viewControllerLayoutGuide type="bottom" id="wfy-db-euE"/>
+                    </layoutGuides>
+                    <view key="view" autoresizesSubviews="NO" contentMode="scaleAspectFit" id="8bC-Xf-vdC">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" text="Crime Mapper" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="FAC-fu-SV6">
+                                <rect key="frame" x="110" y="20" width="194" height="46"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="30"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" misplaced="YES" lineBreakMode="wordWrap" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="y6j-UT-rej">
+                                <rect key="frame" x="49" y="74" width="316" height="218"/>
+                                <string key="text">The data in this application is provided 'as is' and Reactive Mobile excludes all representations, warranties, obligations and liabilities in relation to the data to the maximum extent permitted by law. Reactive Mobile is not liable for any errors or omissions in the data or its presentation and shall not be liable for any loss, injury or damage of any kind caused by its use. Data about crime and policing is only available for England, Wales and Northern Ireland.</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" misplaced="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" reversesTitleShadowWhenHighlighted="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fOC-sO-ilp">
+                                <rect key="frame" x="122" y="320" width="171" height="67"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="24"/>
+                                <state key="normal" title="I understand"/>
+                                <connections>
+                                    <action selector="disclaimerButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="sZp-fX-Uv3"/>
+                                    <segue destination="G7c-aj-4on" kind="show" id="Gb9-S4-fgi"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <color key="backgroundColor" red="0.40000000600000002" green="0.80000001190000003" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <constraints>
+                            <constraint firstAttribute="trailingMargin" secondItem="y6j-UT-rej" secondAttribute="trailing" id="8LT-jv-slw"/>
+                            <constraint firstItem="fOC-sO-ilp" firstAttribute="top" secondItem="y6j-UT-rej" secondAttribute="bottom" constant="16" id="8eT-dh-2mh"/>
+                            <constraint firstItem="y6j-UT-rej" firstAttribute="top" secondItem="FAC-fu-SV6" secondAttribute="bottom" constant="16" id="FDU-Up-MO5"/>
+                            <constraint firstItem="FAC-fu-SV6" firstAttribute="top" secondItem="y3c-jy-aDJ" secondAttribute="bottom" id="LQB-mO-9ij"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="FAC-fu-SV6" secondAttribute="trailing" id="eK0-va-V8U"/>
+                            <constraint firstItem="fOC-sO-ilp" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="eYE-pR-79U"/>
+                            <constraint firstItem="FAC-fu-SV6" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="heO-vl-KeR"/>
+                            <constraint firstItem="y6j-UT-rej" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leadingMargin" id="ogD-TC-13g"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="fOC-sO-ilp" secondAttribute="trailing" id="th8-bS-5c0"/>
+                        </constraints>
+                    </view>
+                    <navigationItem key="navigationItem" id="orh-q0-lLG"/>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="1389.5999999999999" y="60.719640179910051"/>
+        </scene>
+        <!--Crime Reports-->
+        <scene sceneID="wC6-fY-tQi">
+            <objects>
+                <viewController id="G7c-aj-4on" userLabel="Crime Reports" customClass="MapViewController" customModule="Crime_Mapper" customModuleProvider="target" sceneMemberID="viewController">
+                    <layoutGuides>
+                        <viewControllerLayoutGuide type="top" id="OpW-2O-vek"/>
+                        <viewControllerLayoutGuide type="bottom" id="2Bi-B1-ap5"/>
+                    </layoutGuides>
+                    <view key="view" contentMode="scaleToFill" id="aSJ-Jv-5ul">
+                        <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <activityIndicatorView hidden="YES" userInteractionEnabled="NO" contentMode="center" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="6Aw-6Q-Nz3">
+                                <rect key="frame" x="169" y="315" width="37" height="37"/>
+                            </activityIndicatorView>
+                            <stackView contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="Zft-1u-dTc">
+                                <rect key="frame" x="16" y="20" width="343" height="647"/>
+                                <subviews>
+                                    <stackView contentMode="scaleToFill" distribution="fillEqually" translatesAutoresizingMaskIntoConstraints="NO" id="Uip-8J-CVQ">
+                                        <rect key="frame" x="0.0" y="0.0" width="343" height="59"/>
+                                        <subviews>
+                                            <button opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="T1E-R0-oSq">
+                                                <rect key="frame" x="0.0" y="0.0" width="114.33333333333334" height="59"/>
+                                                <state key="normal" image="refresh">
+                                                    <color key="titleColor" red="0.0" green="0.47843137250000001" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                                </state>
+                                                <connections>
+                                                    <action selector="refreshButtonClicked:" destination="G7c-aj-4on" eventType="touchUpInside" id="pv8-mE-OXn"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="klX-ug-bEt">
+                                                <rect key="frame" x="114.33333333333334" y="0.0" width="114.33333333333331" height="59"/>
+                                                <state key="normal" title="-------"/>
+                                                <connections>
+                                                    <action selector="dateButtonClicked:" destination="G7c-aj-4on" eventType="touchUpInside" id="jwQ-Sc-hMe"/>
+                                                </connections>
+                                            </button>
+                                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="b4O-yk-D17">
+                                                <rect key="frame" x="228.66666666666663" y="0.0" width="114.33333333333337" height="59"/>
+                                                <state key="normal" image="location"/>
+                                                <connections>
+                                                    <action selector="myLocationButtonCLicked:" destination="G7c-aj-4on" eventType="touchUpInside" id="nmL-AD-Ccb"/>
+                                                </connections>
+                                            </button>
+                                        </subviews>
+                                        <color key="backgroundColor" red="0.048407458437469852" green="1" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                    </stackView>
+                                    <mapView multipleTouchEnabled="YES" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" mapType="standard" rotateEnabled="NO" pitchEnabled="NO" showsUserLocation="YES" showsBuildings="NO" showsPointsOfInterest="NO" translatesAutoresizingMaskIntoConstraints="NO" id="xrb-Os-xIa">
+                                        <rect key="frame" x="0.0" y="59" width="343" height="588"/>
+                                    </mapView>
+                                </subviews>
+                                <color key="backgroundColor" red="1" green="0.062268724700074385" blue="0.0074120259272159039" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                            </stackView>
+                        </subviews>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <constraints>
+                            <constraint firstItem="Zft-1u-dTc" firstAttribute="leading" secondItem="aSJ-Jv-5ul" secondAttribute="leadingMargin" id="Dne-q0-cNc"/>
+                            <constraint firstItem="2Bi-B1-ap5" firstAttribute="top" secondItem="Zft-1u-dTc" secondAttribute="bottom" id="EMh-2O-zM7"/>
+                            <constraint firstItem="6Aw-6Q-Nz3" firstAttribute="centerX" secondItem="aSJ-Jv-5ul" secondAttribute="centerX" id="Fj3-Au-H8A"/>
+                            <constraint firstItem="Zft-1u-dTc" firstAttribute="top" secondItem="OpW-2O-vek" secondAttribute="bottom" id="OTe-e0-WTS"/>
+                            <constraint firstAttribute="trailingMargin" secondItem="Zft-1u-dTc" secondAttribute="trailing" id="kZO-iW-Sao"/>
+                            <constraint firstItem="6Aw-6Q-Nz3" firstAttribute="centerY" secondItem="aSJ-Jv-5ul" secondAttribute="centerY" id="pU8-zT-TOk"/>
+                        </constraints>
+                    </view>
+                    <toolbarItems/>
+                    <navigationItem key="navigationItem" title="Map View" id="bxe-Tx-3dG"/>
+                    <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+                    <size key="freeformSize" width="375" height="667"/>
+                    <connections>
+                        <outlet property="activityIndicator" destination="6Aw-6Q-Nz3" id="Nbw-Y3-7WX"/>
+                        <outlet property="dateButton" destination="klX-ug-bEt" id="gsY-gZ-poS"/>
+                        <outlet property="mapView" destination="xrb-Os-xIa" id="5yL-m2-1on"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Kqb-B1-L3M" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="2200.8000000000002" y="60.719640179910051"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="location" width="25" height="25"/>
+        <image name="refresh" width="25" height="25"/>
+    </resources>
+</document>
