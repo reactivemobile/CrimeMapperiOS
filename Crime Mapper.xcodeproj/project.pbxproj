@@ -13,13 +13,12 @@
 		805502A41E78002000AD6692 /* CoreActionSheetPicker.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 805502A21E78002000AD6692 /* CoreActionSheetPicker.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
 		805502A61E78003800AD6692 /* HandyJSON.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 805502A51E78003800AD6692 /* HandyJSON.framework */; };
 		805502A71E78003800AD6692 /* HandyJSON.framework in Embed Frameworks */ = {isa = PBXBuildFile; fileRef = 805502A51E78003800AD6692 /* HandyJSON.framework */; settings = {ATTRIBUTES = (CodeSignOnCopy, RemoveHeadersOnCopy, ); }; };
+		805502A91E7999E900AD6692 /* Localizable.strings in Resources */ = {isa = PBXBuildFile; fileRef = 805502A81E7999E900AD6692 /* Localizable.strings */; };
 		80B2FD1B1E6D6F0C00539346 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B2FD1A1E6D6F0C00539346 /* AppDelegate.swift */; };
-		80B2FD1D1E6D6F0C00539346 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B2FD1C1E6D6F0C00539346 /* ViewController.swift */; };
 		80B2FD201E6D6F0C00539346 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80B2FD1E1E6D6F0C00539346 /* Main.storyboard */; };
 		80B2FD221E6D6F0C00539346 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 80B2FD211E6D6F0C00539346 /* Assets.xcassets */; };
 		80B2FD251E6D6F0C00539346 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 80B2FD231E6D6F0C00539346 /* LaunchScreen.storyboard */; };
 		80B2FD301E6D6F0C00539346 /* Crime_MapperTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B2FD2F1E6D6F0C00539346 /* Crime_MapperTests.swift */; };
-		80B2FD3B1E6D748C00539346 /* DisclaimerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B2FD3A1E6D748C00539346 /* DisclaimerViewController.swift */; };
 		80B2FD3D1E6D7DC400539346 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80B2FD3C1E6D7DC400539346 /* MapViewController.swift */; };
 		80DACB0F1E6F199F00B464A6 /* StreetLevelCrime.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80DACB0E1E6F199F00B464A6 /* StreetLevelCrime.swift */; };
 		80E0ECE81E6ED8A100A883BE /* StreetLevelAvailabilityDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 80E0ECE71E6ED8A100A883BE /* StreetLevelAvailabilityDate.swift */; };
@@ -56,9 +55,9 @@
 		8055029F1E77FFFD00AD6692 /* Alamofire.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Alamofire.framework; path = Carthage/Carthage/Build/iOS/Alamofire.framework; sourceTree = "<group>"; };
 		805502A21E78002000AD6692 /* CoreActionSheetPicker.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreActionSheetPicker.framework; path = Carthage/Carthage/Build/iOS/CoreActionSheetPicker.framework; sourceTree = "<group>"; };
 		805502A51E78003800AD6692 /* HandyJSON.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = HandyJSON.framework; path = Carthage/Carthage/Build/iOS/HandyJSON.framework; sourceTree = "<group>"; };
+		805502A81E7999E900AD6692 /* Localizable.strings */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.strings; path = Localizable.strings; sourceTree = "<group>"; };
 		80B2FD171E6D6F0C00539346 /* Crime Mapper.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Crime Mapper.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		80B2FD1A1E6D6F0C00539346 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
-		80B2FD1C1E6D6F0C00539346 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		80B2FD1F1E6D6F0C00539346 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		80B2FD211E6D6F0C00539346 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		80B2FD241E6D6F0C00539346 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -66,7 +65,6 @@
 		80B2FD2B1E6D6F0C00539346 /* Crime MapperTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Crime MapperTests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
 		80B2FD2F1E6D6F0C00539346 /* Crime_MapperTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Crime_MapperTests.swift; sourceTree = "<group>"; };
 		80B2FD311E6D6F0C00539346 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		80B2FD3A1E6D748C00539346 /* DisclaimerViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DisclaimerViewController.swift; sourceTree = "<group>"; };
 		80B2FD3C1E6D7DC400539346 /* MapViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MapViewController.swift; sourceTree = "<group>"; };
 		80B2FD761E6DFFA900539346 /* Package.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		80DACB0E1E6F199F00B464A6 /* StreetLevelCrime.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = StreetLevelCrime.swift; sourceTree = "<group>"; };
@@ -122,13 +120,12 @@
 			isa = PBXGroup;
 			children = (
 				80B2FD1A1E6D6F0C00539346 /* AppDelegate.swift */,
-				80B2FD1C1E6D6F0C00539346 /* ViewController.swift */,
 				80B2FD1E1E6D6F0C00539346 /* Main.storyboard */,
 				80B2FD211E6D6F0C00539346 /* Assets.xcassets */,
 				80B2FD231E6D6F0C00539346 /* LaunchScreen.storyboard */,
 				80B2FD261E6D6F0C00539346 /* Info.plist */,
-				80B2FD3A1E6D748C00539346 /* DisclaimerViewController.swift */,
 				80B2FD3C1E6D7DC400539346 /* MapViewController.swift */,
+				805502A81E7999E900AD6692 /* Localizable.strings */,
 				80DACB0E1E6F199F00B464A6 /* StreetLevelCrime.swift */,
 				80E0ECE71E6ED8A100A883BE /* StreetLevelAvailabilityDate.swift */,
 				80E0ECEB1E6EF5E600A883BE /* CrimeCategory.swift */,
@@ -238,6 +235,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				80B2FD251E6D6F0C00539346 /* LaunchScreen.storyboard in Resources */,
+				805502A91E7999E900AD6692 /* Localizable.strings in Resources */,
 				80B2FD221E6D6F0C00539346 /* Assets.xcassets in Resources */,
 				80B2FD201E6D6F0C00539346 /* Main.storyboard in Resources */,
 			);
@@ -258,11 +256,9 @@
 			buildActionMask = 2147483647;
 			files = (
 				80E0ECE81E6ED8A100A883BE /* StreetLevelAvailabilityDate.swift in Sources */,
-				80B2FD1D1E6D6F0C00539346 /* ViewController.swift in Sources */,
 				80E0ECEC1E6EF5E700A883BE /* CrimeCategory.swift in Sources */,
 				80B2FD1B1E6D6F0C00539346 /* AppDelegate.swift in Sources */,
 				80DACB0F1E6F199F00B464A6 /* StreetLevelCrime.swift in Sources */,
-				80B2FD3B1E6D748C00539346 /* DisclaimerViewController.swift in Sources */,
 				80B2FD3D1E6D7DC400539346 /* MapViewController.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -10,7 +10,9 @@ import Foundation
 import HandyJSON
 
 public struct CrimeCategory: HandyJSON {
+    
     var url: String
+    
     var name: String
     
     public init(){
