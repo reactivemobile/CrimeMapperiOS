@@ -14,14 +14,7 @@ import CoreActionSheetPicker
 
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
-    @IBOutlet weak var mapView: MKMapView! {
-        didSet {
-            let noLocation = CLLocationCoordinate2D(latitude: 51.507983, longitude: -0.127545)
-            let viewRegion = MKCoordinateRegionMakeWithDistance(noLocation, 1500, 1500)
-            self.mapView.setRegion(viewRegion, animated: false)
-        }
-    }
-    
+    @IBOutlet weak var mapView: MKMapView!
     @IBOutlet weak var dateButton: UIButton!
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -49,6 +42,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         mapView.delegate = self
         locationManager.delegate = self
         self.view.bringSubview(toFront: activityIndicator)
+        mapView.tintAdjustmentMode = UIViewTintAdjustmentMode.normal
         checkLocationAuthorizationStatus()
     }
     
@@ -59,7 +53,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             enableUserLocation()
         } else {
             locationManager.requestWhenInUseAuthorization()
-            getCrimeAvailability()
         }
     }
     
@@ -68,12 +61,27 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         {
             enableUserLocation()
         }
+        else{
+            centerMapOnLondon()
+        }
     }
     
     func enableUserLocation(){
         mapView.showsUserLocation = true
-        mapView.userTrackingMode = .follow
-        getCrimeAvailability()
+        mapView.setUserTrackingMode(.follow, animated: false)
+    }
+    
+    func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
+        if(animated)
+        {
+            getCrimeAvailability()
+        }
+    }
+    
+    func centerMapOnLondon(){
+        let londonLocation = CLLocationCoordinate2D(latitude: 51.507983, longitude: -0.127545)
+        let viewRegion = MKCoordinateRegionMakeWithDistance(londonLocation, 1500, 1500)
+        self.mapView.setRegion(viewRegion, animated: false)
     }
     
     // MARK: - Navigation
@@ -108,36 +116,54 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         let url = baseUrl+datesPath
         
         Alamofire.request(url, method: .get, encoding: JSONEncoding.default).responseString { response in
-            if let status = response.response?.statusCode {
-                if status == 200
-                {
-                    if let result = response.result.value {
-                        if let items = [StreetLevelAvailabilityDate].deserialize(from: result)
-                        {
-                            if(items.count > 0){
-                                self.streetLevelAvailabilityDates.removeAll()
-                                for date in items
-                                {
-                                    self.streetLevelAvailabilityDates.append(date!.date)
+            
+            if(self.checkNetworkError(error: response.error))
+            {
+                return
+            }
+            else
+                if let status = response.response?.statusCode {
+                    if status == 200
+                    {
+                        if let result = response.result.value {
+                            if let items = [StreetLevelAvailabilityDate].deserialize(from: result)
+                            {
+                                if(items.count > 0){
+                                    self.streetLevelAvailabilityDates.removeAll()
+                                    for date in items
+                                    {
+                                        self.streetLevelAvailabilityDates.append(date!.date)
+                                    }
+                                    
+                                    let first = items.first
+                                    self.setDate(date: first!!.date)
+                                    self.getCrimeCategoryMap(date: self.currentDate)
                                 }
-                                
-                                let first = items.first
-                                self.setDate(date: first!!.date)
-                                self.getCrimeCategoryMap(date: self.currentDate)
+                                else
+                                {
+                                    self.showError(error: "Error getting crime availability")
+                                }
                             }
                             else
                             {
-                                self.showError(error: "Error getting availability, array was empty")
+                                self.showError(error: "Error getting crime availability")
                             }
                         }
-                        else
-                        {
-                            self.showError(error: "Error parsing json")
-                        }
                     }
-                }
             }
         }
+    }
+    
+    func checkNetworkError(error: Error?) -> Bool
+    {
+        if let err = error as? URLError, err.code  == URLError.Code.notConnectedToInternet
+        {
+            // No internet
+            self.showError(error: "No internet connection available.\nPress refresh button to try again")
+            return true
+        }
+        return false
+        
     }
     
     func setDate(date: String){
@@ -148,28 +174,38 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     private func getCrimeCategoryMap(date: String){
         let url = baseUrl+categoriesPath+date
         Alamofire.request(url, method: .get, encoding: JSONEncoding.default).responseString { response in
-            if let status = response.response?.statusCode {
-                if status == 200
-                {
-                    if let result = response.result.value {
-                        if let items = [CrimeCategory].deserialize(from: result)
-                        {
-                            if(items.count > 0)
+            
+            if(self.checkNetworkError(error: response.error))
+            {
+                return
+            }
+            else
+                if let status = response.response?.statusCode {
+                    if status == 200
+                    {
+                        if let result = response.result.value {
+                            if let items = [CrimeCategory].deserialize(from: result)
                             {
-                                for crimeCategory in items
+                                if(items.count > 0)
                                 {
-                                    let unwrappedCategory = crimeCategory!
-                                    self.crimeCategories[unwrappedCategory.url] = unwrappedCategory.name
+                                    for crimeCategory in items
+                                    {
+                                        let unwrappedCategory = crimeCategory!
+                                        self.crimeCategories[unwrappedCategory.url] = unwrappedCategory.name
+                                    }
+                                    self.refreshCrimeData()
                                 }
-                                self.refreshCrimeData()
-                            }
-                            else
-                            {
-                                self.showError(error: "Empty category list")
+                                else
+                                {
+                                    self.showError(error: "No crime categories found, please try again")
+                                }
                             }
                         }
                     }
-                }
+                    else
+                    {
+                        self.showServerError(status)
+                    }
             }
         }
     }
@@ -187,58 +223,85 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         activityIndicator.stopAnimating()
     }
     
+    private func showServerError(_ status: Int){
+        self.showError(error: "Error from server, please try again. (\(status))")
+    }
+    
     private func showError(error: String){
         hideLoading()
+        let alert = UIAlertController(title: "Error", message: error, preferredStyle: UIAlertControllerStyle.alert)
+        
+        
+        let OKAction = UIAlertAction(title: "OK", style: .default) { action in
+            alert.dismiss(animated: true, completion: nil)
+        }
+        alert.addAction(OKAction)
+        
+        self.present(alert, animated: true, completion: nil)
     }
+    
+    var crimeRequest: Alamofire.DataRequest?
     
     private func getCrimeData(location: CLLocationCoordinate2D)
     {
+        if crimeRequest != nil
+        {
+            crimeRequest!.cancel()
+        }
+        
         let url = "https://data.police.uk/api/crimes-street/all-crime?lat=\(location.latitude)&lng=\(location.longitude)&date=\(currentDate)"
         
-        Alamofire.request(url,   method: .get, encoding: JSONEncoding.default).responseString { response in
-            let allAnnotations = self.mapView.annotations
-            self.mapView.removeAnnotations(allAnnotations)
+        crimeRequest = Alamofire.request(url,   method: .get, encoding: JSONEncoding.default).responseString { response in
             
-            if let status = response.response?.statusCode {
-                if status == 200
-                {
-                    if let result = response.result.value {
-                        if let items = [StreetLevelCrime].deserialize(from: result)
-                        {
-                            if(items.count > 0)
+            if(self.checkNetworkError(error: response.error))
+            {
+                return
+            }
+            else
+            {
+                
+                let allAnnotations = self.mapView.annotations
+                self.mapView.removeAnnotations(allAnnotations)
+                
+                if let status = response.response?.statusCode {
+                    if status == 200
+                    {
+                        if let result = response.result.value {
+                            if let items = [StreetLevelCrime].deserialize(from: result)
                             {
-                                self.addItemsToMap(items: items)
-                            }
-                            else
-                            {
-                                
-                                self.showError(error: "Empty crime data list")
+                                if(items.count > 0)
+                                {
+                                    self.addItemsToMap(itemsIn: items)
+                                }
+                                else
+                                {
+                                    
+                                    self.showError(error: "No crime reports found for this location")
+                                }
                             }
                         }
                     }
                     else
                     {
-                        self.showError(error: "Error, response is broken \(response)")
+                        self.showServerError(status)
                     }
                 }
                 else
                 {
-                    self.showError(error: "Error, status code is \(status)")
+                    // Cancelled
                 }
-            }
-            else
-            {
-                self.showError(error: "Catastrophic failure \(response)")
             }
         }
     }
     
-    func addItemsToMap(items: [StreetLevelCrime?]){
+    func addItemsToMap(itemsIn: [StreetLevelCrime?]){
         
         var previousLatitude: Double = 0
         var previousLongitude: Double = 0
         
         var annotation = CustomAnnotation()
+        
+        let items = itemsIn.sorted { $0!.location.latitude < $1!.location.latitude }
         
         for crimeReport in items
         {
@@ -258,8 +321,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                 subtitle = "Outcome unknown"
             }
             
-            annotation.title = unwrappedReport.location.street.name
-            
             let newReport = "(\(annotation.count)) " +  title+" - "+subtitle
             
             annotation.subtitleLong = annotation.subtitleLong + newReport
@@ -275,6 +336,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             {
                 annotation = CustomAnnotation()
                 annotation.coordinate = coordinate
+                annotation.title = unwrappedReport.location.street.name
                 self.mapView.addAnnotation(annotation)
             }
             
