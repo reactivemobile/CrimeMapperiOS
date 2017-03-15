@@ -10,6 +10,7 @@ import Foundation
 import HandyJSON
 
 public struct StreetLevelCrime: HandyJSON {
+    
     var category: String = ""
     
     var persistent_id: String = ""

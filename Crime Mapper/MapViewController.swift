@@ -15,6 +15,7 @@ import CoreActionSheetPicker
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
+    
     @IBOutlet weak var dateButton: UIButton!
     
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
@@ -37,13 +38,10 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     var locationManager = CLLocationManager()
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        mapView.delegate = self
-        locationManager.delegate = self
-        self.view.bringSubview(toFront: activityIndicator)
-        mapView.tintAdjustmentMode = UIViewTintAdjustmentMode.normal
-        checkLocationAuthorizationStatus()
+    var lastSelectedDateIndex: Int = 0
+    
+    override func viewDidAppear(_ animated: Bool) {
+        showDisclaimer()
     }
     
     // MARK: - location manager to authorize user location for Maps app
@@ -68,20 +66,23 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func enableUserLocation(){
         mapView.showsUserLocation = true
-        mapView.setUserTrackingMode(.follow, animated: false)
+        mapView.setUserTrackingMode(.follow, animated: true)
     }
     
+    var initialMapMove: Bool = false
+    
     func mapView(_ mapView: MKMapView, regionDidChangeAnimated animated: Bool) {
-        if(animated)
+        if(animated && !initialMapMove)
         {
             getCrimeAvailability()
+            initialMapMove = true
         }
     }
     
     func centerMapOnLondon(){
         let londonLocation = CLLocationCoordinate2D(latitude: 51.507983, longitude: -0.127545)
         let viewRegion = MKCoordinateRegionMakeWithDistance(londonLocation, 1500, 1500)
-        self.mapView.setRegion(viewRegion, animated: false)
+        self.mapView.setRegion(viewRegion, animated: true)
     }
     
     // MARK: - Navigation
@@ -98,11 +99,11 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     @IBAction func dateButtonClicked(_ sender: Any) {
-        ActionSheetStringPicker.show(withTitle: "Select date", rows: streetLevelAvailabilityDates, initialSelection: 0, doneBlock: {
+        ActionSheetStringPicker.show(withTitle: "Select date", rows: streetLevelAvailabilityDates, initialSelection: self.lastSelectedDateIndex, doneBlock: {
             picker, indexes, values in
+            self.lastSelectedDateIndex = indexes
             self.setDate(date: self.streetLevelAvailabilityDates[indexes])
             self.refreshCrimeData()
-            
             return
         }, cancel: { ActionMultipleStringCancelBlock in return }, origin: sender)
     }
@@ -121,35 +122,34 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             {
                 return
             }
-            else
-                if let status = response.response?.statusCode {
-                    if status == 200
-                    {
-                        if let result = response.result.value {
-                            if let items = [StreetLevelAvailabilityDate].deserialize(from: result)
-                            {
-                                if(items.count > 0){
-                                    self.streetLevelAvailabilityDates.removeAll()
-                                    for date in items
-                                    {
-                                        self.streetLevelAvailabilityDates.append(date!.date)
-                                    }
-                                    
-                                    let first = items.first
-                                    self.setDate(date: first!!.date)
-                                    self.getCrimeCategoryMap(date: self.currentDate)
-                                }
-                                else
+            else if let status = response.response?.statusCode {
+                if status == 200
+                {
+                    if let result = response.result.value {
+                        if let items = [StreetLevelAvailabilityDate].deserialize(from: result)
+                        {
+                            if(items.count > 0){
+                                self.streetLevelAvailabilityDates.removeAll()
+                                for date in items
                                 {
-                                    self.showError(error: "Error getting crime availability")
+                                    self.streetLevelAvailabilityDates.append(date!.date)
                                 }
+                                
+                                let first = items.first
+                                self.setDate(date: first!!.date)
+                                self.getCrimeCategoryMap(date: self.currentDate)
                             }
                             else
                             {
                                 self.showError(error: "Error getting crime availability")
                             }
                         }
+                        else
+                        {
+                            self.showError(error: "Error getting crime availability")
+                        }
                     }
+                }
             }
         }
     }
@@ -162,8 +162,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             self.showError(error: "No internet connection available.\nPress refresh button to try again")
             return true
         }
-        return false
-        
+        return false        
     }
     
     func setDate(date: String){
@@ -179,33 +178,32 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             {
                 return
             }
-            else
-                if let status = response.response?.statusCode {
-                    if status == 200
-                    {
-                        if let result = response.result.value {
-                            if let items = [CrimeCategory].deserialize(from: result)
+            else if let status = response.response?.statusCode {
+                if status == 200
+                {
+                    if let result = response.result.value {
+                        if let items = [CrimeCategory].deserialize(from: result)
+                        {
+                            if(items.count > 0)
                             {
-                                if(items.count > 0)
+                                for crimeCategory in items
                                 {
-                                    for crimeCategory in items
-                                    {
-                                        let unwrappedCategory = crimeCategory!
-                                        self.crimeCategories[unwrappedCategory.url] = unwrappedCategory.name
-                                    }
-                                    self.refreshCrimeData()
+                                    let unwrappedCategory = crimeCategory!
+                                    self.crimeCategories[unwrappedCategory.url] = unwrappedCategory.name
                                 }
-                                else
-                                {
-                                    self.showError(error: "No crime categories found, please try again")
-                                }
+                                self.refreshCrimeData()
+                            }
+                            else
+                            {
+                                self.showError(error: "No crime categories found, please try again")
                             }
                         }
                     }
-                    else
-                    {
-                        self.showServerError(status)
-                    }
+                }
+                else
+                {
+                    self.showServerError(status)
+                }
             }
         }
     }
@@ -225,6 +223,27 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     private func showServerError(_ status: Int){
         self.showError(error: "Error from server, please try again. (\(status))")
+    }
+    
+    private func showDisclaimer(){
+        let alert = UIAlertController(title: "Crime Mapper", message: NSLocalizedString("disclaimer_text", comment: ""), preferredStyle: UIAlertControllerStyle.alert)
+        
+        let OKAction = UIAlertAction(title: "OK", style: .default) { action in
+            alert.dismiss(animated: false, completion: nil)
+            self.start()
+        }
+        alert.addAction(OKAction)
+        
+        self.present(alert, animated: true, completion: nil)
+        
+    }
+    
+    private func start(){
+        mapView.delegate = self
+        locationManager.delegate = self
+        self.view.bringSubview(toFront: activityIndicator)
+        mapView.tintAdjustmentMode = UIViewTintAdjustmentMode.normal
+        self.checkLocationAuthorizationStatus()
     }
     
     private func showError(error: String){
@@ -275,7 +294,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
                                 }
                                 else
                                 {
-                                    
                                     self.showError(error: "No crime reports found for this location")
                                 }
                             }
@@ -349,7 +367,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is MKUserLocation {
-            //return nil so map view draws "blue dot" for standard user location
             return nil
         }
         
@@ -396,6 +413,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         required override init() {
         }
     }
+    
     @IBAction func myLocationButtonCLicked(_ sender: Any) {
         checkLocationAuthorizationStatus()
     }

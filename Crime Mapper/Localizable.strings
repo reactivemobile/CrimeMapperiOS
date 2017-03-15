@@ -1,0 +1,8 @@
+/* 
+  Localizable.strings
+  Crime Mapper
+
+  Created by Donal O'Callaghan on 15/03/2017.
+  Copyright © 2017 Donal O'Callaghan. All rights reserved.
+*/
+"disclaimer_text" = "The data in this application is provided 'as is' and Reactive Mobile excludes all representations, warranties, obligations and liabilities in relation to the data to the maximum extent permitted by law.  Reactive Mobile is not liable for any errors or omissions in the data or its presentation and shall not be liable for any loss, injury or damage of any kind caused by its use.  Data about crime and policing is only available for England, Wales and Northern Ireland.";
