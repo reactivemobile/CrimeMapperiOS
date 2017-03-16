@@ -15,29 +15,19 @@ import CoreActionSheetPicker
 class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerDelegate {
     
     @IBOutlet weak var mapView: MKMapView!
-    
     @IBOutlet weak var dateButton: UIButton!
-    
     @IBOutlet weak var activityIndicator: UIActivityIndicatorView!
     
     let baseUrl = "http://data.police.uk/api/"
-    
     let datesPath = "crimes-street-dates"
-    
     let categoriesPath = "crime-categories?date="
-    
     let streetCrimePath = "crimes-street/all-crime"
-    
     let regionRadius: CLLocationDistance = 2
     
     var currentDate: String = ""
-    
     var streetLevelAvailabilityDates: [String] = []
-    
     var crimeCategories: NSMutableDictionary = [:]
-    
     var locationManager = CLLocationManager()
-    
     var lastSelectedDateIndex: Int = 0
     
     override func viewDidAppear(_ animated: Bool) {
@@ -162,7 +152,7 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             self.showError(error: "No internet connection available.\nPress refresh button to try again")
             return true
         }
-        return false        
+        return false
     }
     
     func setDate(date: String){
@@ -235,7 +225,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
         alert.addAction(OKAction)
         
         self.present(alert, animated: true, completion: nil)
-        
     }
     
     private func start(){
@@ -278,7 +267,6 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
             }
             else
             {
-                
                 let allAnnotations = self.mapView.annotations
                 self.mapView.removeAnnotations(allAnnotations)
                 
@@ -313,10 +301,8 @@ class MapViewController: UIViewController, MKMapViewDelegate, CLLocationManagerD
     }
     
     func addItemsToMap(itemsIn: [StreetLevelCrime?]){
-        
         var previousLatitude: Double = 0
         var previousLongitude: Double = 0
-        
         var annotation = CustomAnnotation()
         
         let items = itemsIn.sorted { $0!.location.latitude < $1!.location.latitude }
