@@ -12,21 +12,13 @@ import HandyJSON
 public struct StreetLevelCrime: HandyJSON {
     
     var category: String = ""
-    
     var persistent_id: String = ""
-    
     var location_type: String = ""
-    
     var location_subtype: String = ""
-    
     var id: Int = 0
-    
     var location: Location = Location()
-    
     var context: String = ""
-    
     var month: String = ""
-    
     var outcome_status: OutcomeStatus = OutcomeStatus()
     
     public init(){
