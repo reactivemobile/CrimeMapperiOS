@@ -494,7 +494,7 @@
 				80B2FD331E6D6F0C00539346 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		80B2FD341E6D6F0C00539346 /* Build configuration list for PBXNativeTarget "Crime Mapper" */ = {
 			isa = XCConfigurationList;
@@ -503,7 +503,7 @@
 				80B2FD361E6D6F0C00539346 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 		80B2FD371E6D6F0C00539346 /* Build configuration list for PBXNativeTarget "Crime MapperTests" */ = {
 			isa = XCConfigurationList;
@@ -512,7 +512,7 @@
 				80B2FD391E6D6F0C00539346 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
+			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
 	};
